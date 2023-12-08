@@ -1,3 +1,5 @@
-export function LazyPage1() {
-    return <h2>LazyPage2</h2>;
+function LazyPage1() {
+    return <h2>LazyPage1</h2>;
 }
+
+export default LazyPage1;
