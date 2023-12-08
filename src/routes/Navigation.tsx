@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import G from '../assets/Google__G__logo.svg.png';
 import { activeLink } from '../utils/activeLink';
-import { routes } from './routes';
+import { routes2 } from './routes';
 
 function Navigation() {
     return (
@@ -25,7 +25,7 @@ function Navigation() {
                             />
 
                             <ul>
-                                {routes.map(({ name, to }) => (
+                                {routes2.map(({ name, to }) => (
                                     <li key={name}>
                                         <NavLink
                                             to={to}
@@ -41,7 +41,7 @@ function Navigation() {
                         </nav>
 
                         <Routes>
-                            {routes.map(({ path, Component }) => (
+                            {routes2.map(({ path, Component }) => (
                                 <Route
                                     key={path}
                                     path={path}
@@ -53,7 +53,7 @@ function Navigation() {
                                 path='*'
                                 element={
                                     <Navigate
-                                        to={routes[0].to}
+                                        to={routes2[0].to}
                                         replace
                                     />
                                 }

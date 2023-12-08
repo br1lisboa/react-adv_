@@ -1,4 +1,5 @@
 import { lazy, LazyExoticComponent } from 'react';
+import { NoLazyLoad } from '../01-lazyload/pages/NoLazyLoad';
 
 type JSXComponent = () => JSX.Element;
 
@@ -31,5 +32,22 @@ export const routes: Routes[] = [
         path: 'lazy-page-3',
         Component: Lazy3,
         name: 'Lazy Page 3',
+    },
+];
+
+const LazyNested1 = lazy(() => import('../01-lazyload/layout/LazyLayout'));
+
+export const routes2: Routes[] = [
+    {
+        to: '/lazy-nested-1/',
+        path: '/lazy-nested-1/*',
+        Component: LazyNested1,
+        name: 'Lazy Nested 1',
+    },
+    {
+        to: '/no-lazy-nested',
+        path: 'no-lazy-nested',
+        Component: NoLazyLoad,
+        name: 'No Lazy Nested',
     },
 ];
