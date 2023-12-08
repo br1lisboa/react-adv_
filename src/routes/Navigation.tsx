@@ -8,6 +8,8 @@ import {
 import G from '../assets/Google__G__logo.svg.png';
 import { activeLink } from '../utils/activeLink';
 
+import { LazyPage1, LazyPage2, LazyPage3 } from '../01-lazyload/pages/index';
+
 function Navigation() {
     return (
         <>
@@ -24,34 +26,34 @@ function Navigation() {
                         <ul>
                             <li>
                                 <NavLink
-                                    to='/'
+                                    to='/lazy1'
                                     className={({ isActive }) =>
                                         activeLink(isActive)
                                     }
                                 >
-                                    Home
+                                    lazy 1
                                 </NavLink>
                             </li>
 
                             <li>
                                 <NavLink
-                                    to='/about'
+                                    to='/lazy2'
                                     className={({ isActive }) =>
                                         activeLink(isActive)
                                     }
                                 >
-                                    About
+                                    lazy 2
                                 </NavLink>
                             </li>
 
                             <li>
                                 <NavLink
-                                    to='/users'
+                                    to='/lazy3'
                                     className={({ isActive }) =>
                                         activeLink(isActive)
                                     }
                                 >
-                                    Users
+                                    lazy 3
                                 </NavLink>
                             </li>
                         </ul>
@@ -59,16 +61,16 @@ function Navigation() {
 
                     <Routes>
                         <Route
-                            path='/'
-                            element={<h1>Home</h1>}
+                            path='/lazy1'
+                            element={<LazyPage1 />}
                         />
                         <Route
-                            path='/about'
-                            element={<h1>About</h1>}
+                            path='/lazy2'
+                            element={<LazyPage2 />}
                         />
                         <Route
-                            path='/users'
-                            element={<h1>Users</h1>}
+                            path='/lazy3'
+                            element={<LazyPage3 />}
                         />
 
                         <Route
