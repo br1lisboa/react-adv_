@@ -1,45 +1,85 @@
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  NavLink
+    BrowserRouter,
+    NavLink,
+    Navigate,
+    Route,
+    Routes,
 } from 'react-router-dom';
+import G from '../assets/Google__G__logo.svg.png';
+import { activeLink } from '../utils/activeLink';
 
-import logo from '../logo.svg';
+function Navigation() {
+    return (
+        <>
+            <BrowserRouter>
+                <div className='main-layout'>
+                    <nav>
+                        <img
+                            src={G}
+                            alt='Logo de G'
+                            width={200}
+                            style={{ paddingTop: 20 }}
+                        />
 
-export const Navigation = () => {
-  return (
-    <Router>
-      <div className="main-layout">
-        <nav>
-            <img src={ logo } alt="React Logo" />
-          <ul>
-            <li>
-              <NavLink to="/" activeClassName="nav-active" exact>Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/about" activeClassName="nav-active" exact>About</NavLink>
-            </li>
-            <li>
-              <NavLink to="/users" activeClassName="nav-active" exact>Users</NavLink>
-            </li>
-          </ul>
-        </nav>
+                        <ul>
+                            <li>
+                                <NavLink
+                                    to='/'
+                                    className={({ isActive }) =>
+                                        activeLink(isActive)
+                                    }
+                                >
+                                    Home
+                                </NavLink>
+                            </li>
 
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/about">
-            <h1>About</h1>
-          </Route>
-          <Route path="/users">
-            <h1>Users</h1>
-          </Route>
-          <Route path="/">
-            <h1>Home</h1>
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
+                            <li>
+                                <NavLink
+                                    to='/about'
+                                    className={({ isActive }) =>
+                                        activeLink(isActive)
+                                    }
+                                >
+                                    About
+                                </NavLink>
+                            </li>
+
+                            <li>
+                                <NavLink
+                                    to='/users'
+                                    className={({ isActive }) =>
+                                        activeLink(isActive)
+                                    }
+                                >
+                                    Users
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <Routes>
+                        <Route
+                            path='/'
+                            element={<h1>Home</h1>}
+                        />
+                        <Route
+                            path='/about'
+                            element={<h1>About</h1>}
+                        />
+                        <Route
+                            path='/users'
+                            element={<h1>Users</h1>}
+                        />
+
+                        <Route
+                            path='*'
+                            element={<Navigate to='/' />}
+                        />
+                    </Routes>
+                </div>
+            </BrowserRouter>
+        </>
+    );
 }
+
+export default Navigation;
