@@ -1,15 +1,22 @@
 import Styles from '../styles/styles.module.css';
 import { useProductCard } from '../hooks/useProductCard';
-import { createContext } from 'react';
-import { ProductContextType, PropsCard } from '../interfaces/interface';
+import { ReactElement, createContext } from 'react';
+import { ProductCardProps, ProductContextType } from '../interfaces/interface';
 import { ImageComponent, TitleComponent, ButtonComponent } from '../components';
 
 export const ProductContext = createContext({} as ProductContextType);
 
 const { Provider } = ProductContext;
 
-export function ProductCard(props: PropsCard) {
-    const { children, product } = props;
+type Props = {
+    product: ProductCardProps;
+    className?: string;
+    children?: ReactElement | ReactElement[];
+    style?: React.CSSProperties;
+};
+
+export function ProductCard(props: Props) {
+    const { children, product, className, style } = props;
 
     const { counter, handleChangeCounter } = useProductCard();
 
@@ -21,7 +28,12 @@ export function ProductCard(props: PropsCard) {
                 product,
             }}
         >
-            <div className={Styles.productCard}>{children}</div>
+            <div
+                className={`${Styles.productCard} ${className}`}
+                style={style}
+            >
+                {children}
+            </div>
         </Provider>
     );
 }
