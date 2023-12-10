@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import G from '../assets/Google__G__logo.svg.png';
 import { activeLink } from '../utils/activeLink';
+import ShoppingPage from '../02-components-patterns/pages/ShoppingPage';
 
 function Navigation() {
     return (
@@ -29,7 +30,7 @@ function Navigation() {
                                         activeLink(isActive)
                                     }
                                 >
-                                    Home
+                                    Shopping
                                 </NavLink>
                             </li>
 
@@ -60,7 +61,7 @@ function Navigation() {
                     <Routes>
                         <Route
                             path='/'
-                            element={<h1>Home</h1>}
+                            element={<ShoppingPage />}
                         />
                         <Route
                             path='/about'
