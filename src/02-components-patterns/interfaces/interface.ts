@@ -9,3 +9,8 @@ export type ProductContextType = {
     handleChangeCounter: (value: number) => void;
     product: ProductCardProps;
 };
+
+export interface onChangeArgs {
+    product: ProductCardProps;
+    count: number;
+}
