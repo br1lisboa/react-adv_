@@ -18,25 +18,11 @@ export function useShoppingCart() {
         count: number;
     }) {
         setShoppingCart((prev) => {
-            const productInCar: ProductInCar = prev[product.id] || {
-                ...product,
-                quantity: 0,
-            };
-
-            if (Math.max(productInCar.quantity + count, 0) > 0) {
-                productInCar.quantity += count;
-                return { ...prev, [product.id]: productInCar };
+            if (count === 0) {
+                const { [product.id]: toDelete, ...rest } = prev;
+                return rest;
             }
-
-            const { [product.id]: toDelete, ...rest } = prev;
-
-            return { ...rest };
-
-            // if (count === 0) {
-            //     const { [product.id]: toDelete, ...rest } = prev;
-            //     return rest;
-            // }
-            // return { ...prev, [product.id]: { ...product, quantity: count } };
+            return { ...prev, [product.id]: { ...product, quantity: count } };
         });
     }
     return { shoppingCart, onProductCountChange };

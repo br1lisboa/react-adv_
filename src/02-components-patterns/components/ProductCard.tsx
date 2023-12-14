@@ -2,6 +2,8 @@ import Styles from '../styles/styles.module.css';
 import { useProductCard } from '../hooks/useProductCard';
 import { ReactElement, createContext } from 'react';
 import {
+    InitialValuesProps,
+    ProductCardHandlersProps,
     ProductCardProps,
     ProductContextType,
     onChangeArgs,
@@ -14,21 +16,33 @@ const { Provider } = ProductContext;
 
 type Props = {
     product: ProductCardProps;
+    // children?: ReactElement | ReactElement[];
+    children: (args: ProductCardHandlersProps) => JSX.Element;
     className?: string;
-    children?: ReactElement | ReactElement[];
     style?: React.CSSProperties;
     onChange?: (args: onChangeArgs) => void;
     value?: number;
+    initialValues?: InitialValuesProps;
 };
 
 export function ProductCard(props: Props) {
-    const { children, product, className, style, onChange, value } = props;
-
-    const { counter, handleChangeCounter } = useProductCard({
-        onChange,
+    const {
+        children,
         product,
+        className,
+        style,
+        onChange,
         value,
-    });
+        initialValues,
+    } = props;
+
+    const { counter, handleChangeCounter, maxCount, isMaxCountReached, reset } =
+        useProductCard({
+            onChange,
+            product,
+            value,
+            initialValues,
+        });
 
     return (
         <Provider
@@ -36,13 +50,21 @@ export function ProductCard(props: Props) {
                 counter,
                 handleChangeCounter,
                 product,
+                maxCount,
             }}
         >
             <div
                 className={`${Styles.productCard} ${className}`}
                 style={style}
             >
-                {children}
+                {children({
+                    count: counter,
+                    isMaxCountReached: isMaxCountReached,
+                    maxCount: maxCount,
+                    increaseBy: handleChangeCounter,
+                    product: product,
+                    reset: reset,
+                })}
             </div>
         </Provider>
     );

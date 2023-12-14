@@ -1,37 +1,58 @@
 import { useEffect, useRef, useState } from 'react';
-import { ProductCardProps, onChangeArgs } from '../interfaces/interface';
+import {
+    InitialValuesProps,
+    ProductCardProps,
+    onChangeArgs,
+} from '../interfaces/interface';
 
 interface useProductCardProps {
     product: ProductCardProps;
     onChange?: (args: onChangeArgs) => void;
     value?: number;
+    initialValues?: InitialValuesProps;
 }
 
 export function useProductCard(props: useProductCardProps) {
-    const { product, onChange, value = 0 } = props;
+    const { product, onChange, value = 0, initialValues } = props;
 
-    const isControlled = useRef(!!onChange);
+    const isMounted = useRef(false);
 
-    const [counter, setCounter] = useState<number>(value);
+    const [counter, setCounter] = useState<number>(
+        initialValues?.count || value
+    );
 
     function handleChangeCounter(value: number) {
-        if (isControlled.current) {
-            return onChange && onChange({ count: value, product });
-        }
+        let newValue = Math.max(counter + value, 0);
 
-        const newValue = Math.max(counter + value, 0);
+        if (initialValues?.maxCount) {
+            newValue = Math.min(newValue, initialValues.maxCount);
+        }
 
         setCounter(newValue);
 
         onChange && onChange({ product, count: newValue });
     }
 
-    useEffect(() => {
-        setCounter(value);
-    }, [value]);
+    function reset() {
+        setCounter(initialValues?.count || value);
+    }
+
+    useEffect(
+        function setJustIfMounted() {
+            if (!isMounted.current) return;
+
+            setCounter(value);
+        },
+        [value]
+    );
 
     return {
         counter,
+        maxCount: initialValues?.maxCount,
+        isMaxCountReached:
+            !!initialValues?.maxCount && counter === initialValues?.maxCount,
+
         handleChangeCounter,
+        reset,
     };
 }

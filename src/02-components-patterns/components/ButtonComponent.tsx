@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { ProductContext } from './ProductCard';
 import Styles from '../styles/styles.module.css';
 
@@ -9,7 +9,15 @@ type Props = {
 
 export function ButtonComponent(props: Props) {
     const { className, style } = props;
-    const { counter, handleChangeCounter } = useContext(ProductContext);
+    const { counter, handleChangeCounter, maxCount } =
+        useContext(ProductContext);
+
+    const isMaxRiched = useCallback(
+        function isDisabledButton() {
+            return !!maxCount && counter >= maxCount;
+        },
+        [counter, maxCount]
+    );
 
     return (
         <div
@@ -24,7 +32,9 @@ export function ButtonComponent(props: Props) {
             </button>
             <div className={Styles.countLabel}>{counter}</div>
             <button
-                className={Styles.buttonAdd}
+                className={`${Styles.buttonAdd} ${
+                    isMaxRiched() && Styles.disabled
+                } `}
                 onClick={() => handleChangeCounter(1)}
             >
                 +
